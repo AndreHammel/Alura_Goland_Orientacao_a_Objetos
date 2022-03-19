@@ -1,57 +1,29 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
 
-type ContaCorrente struct {
-	titular 			string
-	numeroAgencia int
-	numeroConta 	int
-	saldo 				float32
-}
-
-// método sacar
-func (c *ContaCorrente) Sacar(valorDoSaque float32) string {
-	if valorDoSaque <= c.saldo && valorDoSaque > 0 {
-		c.saldo -= valorDoSaque
-		return "Saque realizado com sucesso"
-	}
-	return "Saldo insuficiênte"
-}
+	"../pkg/contas"
+)
 
 func main() {
-	// forma 1 de instanciar (iniciando os atributos)
-	contaDoKiko := ContaCorrente{"Kiko", 10, 1001, 10.43}
-	fmt.Println(contaDoKiko)
-	
+	contaDoBarriga := contas.ContaCorrente{Titular: "Sr Barriga", Saldo: 1000}
+	contaDoMadruga := contas.ContaCorrente{Titular: "Sr Madruga", Saldo: 1}
 
-	// forma 2 de instanciar 
-	contaDoBarriga := ContaCorrente{}
-	contaDoBarriga.titular = "Sr. Barriga"
-	contaDoBarriga.saldo = 1000
-	valorDoSaque := 200.
-	fmt.Println(contaDoBarriga)
-	fmt.Println("------------------------------------------------------")
-	
-
-	// forma 2 de instanciar (quando não inicio todos os atributos)
-	condaDoChaves := ContaCorrente{titular: "Chaves", numeroAgencia: 9999 }
-	fmt.Println(condaDoChaves)
-	fmt.Println("------------------------------------------------------")
-	
-
-
-	// forma 3 de instanciar - não usual ( forma "comum" em outras linguagens)
-	var contaDoMadruga *ContaCorrente
-	contaDoMadruga = new(ContaCorrente)
-	// contaDoMadruga.titular = "Sr. Madruga"
-	contaDoMadruga.saldo = 0.0
-	fmt.Println(*contaDoMadruga)
-	fmt.Println("------------------------------------------------------")
-
-	
-
-	fmt.Println("----------------Métodos---------------------")
 	// utilizando o método sacar
+	valorDoSaque := 200.
 	fmt.Println(contaDoBarriga.Sacar(float32(valorDoSaque)))
 	fmt.Println(contaDoBarriga)
+
+	// utilizando o método depositar
+	var valorDoDeposito float32 = 110
+	status, valor := contaDoBarriga.Depositar(float32(valorDoDeposito))
+	fmt.Println("Status da operação:",status,"Saldo na conta:", valor)
+
+	// utilizanod o método tranferir
+	fmt.Println(contaDoBarriga)
+	fmt.Println(contaDoBarriga.Transferir(300, &contaDoMadruga))
+	fmt.Println(contaDoBarriga)
+	fmt.Println(contaDoMadruga)
+
 }

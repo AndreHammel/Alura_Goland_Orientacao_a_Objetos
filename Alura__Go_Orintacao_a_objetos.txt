@@ -1,0 +1,2 @@
+Atributos no struct em letra minúscula leitura somente no arquivo
+Semelhante o conceito de visibilidade private
